@@ -25,14 +25,19 @@ jobs:
         sudo apt install -y gcc-aarch64-linux-gnu
         export CROSS_COMPILE=aarch64-linux-gnu-
 
+    # Set up Clang Toolchain
+    - name: Install Clang
+      run: |
+        sudo apt install -y clang
+        export CC=clang
+        export CROSS_COMPILE=clang-
+
     # Build the kernel with KernelSU
     - name: Build Kernel
       run: |
         export ARCH=arm64
         export SUBARCH=arm64
-        export CROSS_COMPILE=aarch64-linux-gnu-
-        export CC=gcc  # Ensure GCC is used instead of Clang
-        
+        export CROSS_COMPILE=clang-
         make a22x_defconfig
         make -j$(nproc)
 

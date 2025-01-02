@@ -1,4 +1,4 @@
-name: Kernel Build with KernelSU
+lyname: Kernel Build with KernelSU (GCC ony)
 
 on:
   workflow_dispatch: # Allows manual triggering

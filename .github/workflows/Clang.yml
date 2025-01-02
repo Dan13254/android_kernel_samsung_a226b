@@ -1,4 +1,4 @@
-name: Kernel Build with KernelSU
+name: Kernel Build with KernelSU (Clang)
 
 on:
   workflow_dispatch: # Allows manual triggering

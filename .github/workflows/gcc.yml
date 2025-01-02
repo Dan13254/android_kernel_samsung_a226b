@@ -1,4 +1,4 @@
-name: Kernel Build with KernelSU
+name: Kernel Build with KernelSU (GCC)
 
 on:
   workflow_dispatch: # Allows manual triggering

@@ -26,11 +26,12 @@ jobs:
         export CROSS_COMPILE=aarch64-linux-gnu-
 
     # Set up Clang Toolchain
-    - name: Install Clang
+    - name: Install Clang and set paths
       run: |
         sudo apt install -y clang
         export CC=clang
         export CROSS_COMPILE=clang-
+        export PATH=/usr/bin:$PATH
 
     # Build the kernel with KernelSU
     - name: Build Kernel

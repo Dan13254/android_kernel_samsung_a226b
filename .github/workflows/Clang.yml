@@ -1,4 +1,4 @@
-name: Kernel Build with KernelSU (Clang)
+name: Kernel Build with KernelSU
 
 on:
   workflow_dispatch: # Allows manual triggering
@@ -16,29 +16,31 @@ jobs:
     - name: Set up build environment
       run: |
         sudo apt update
-        sudo apt install -y git build-essential bc libncurses5-dev bison flex libssl-dev curl cpio clang
+        sudo apt install -y git build-essential bc libncurses5-dev bison flex libssl-dev curl cpio wget
 
-    # Set up cross-compilation tools
+    # Download and install Clang toolchain (clang-r383902)
+    - name: Download and install Clang toolchain
+      run: |
+        # Download and extract clang-r383902 toolchain
+        wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/3857008389202edac32d57008bb8c99d2c957f9d/clang-r383902.tar.gz
+        tar -xvzf clang-r383902.tar.gz -C /usr/local/
+        # Set environment variables
+        export PATH=/usr/local/clang-r383902/bin:$PATH
+        export CC=/usr/local/clang-r383902/bin/clang
+
+    # Set up cross-compilation tools (GCC toolchain)
     - name: Install GCC Toolchain
       run: |
         sudo apt update
         sudo apt install -y gcc-aarch64-linux-gnu
         export CROSS_COMPILE=aarch64-linux-gnu-
 
-    # Set up Clang Toolchain
-    - name: Install Clang and set paths
-      run: |
-        sudo apt install -y clang
-        export CC=clang
-        export CROSS_COMPILE=clang-
-        export PATH=/usr/bin:$PATH
-
     # Build the kernel with KernelSU
     - name: Build Kernel
       run: |
         export ARCH=arm64
         export SUBARCH=arm64
-        export CROSS_COMPILE=clang-
+        export CROSS_COMPILE=aarch64-linux-gnu-
         make a22x_defconfig
         make -j$(nproc)
 

@@ -26,14 +26,15 @@ jobs:
         export PATH=$PWD/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu/bin:$PATH
 
 
-    # Build the kernel with KernelSU
-    - name: Build Kernel
-      run: |
-        export ARCH=arm64
-        export SUBARCH=arm64
-        export CROSS_COMPILE=aarch64-linux-gnu-
-        make <your_defconfig>
-        make -j$(nproc)
+ # Build the kernel with KernelSU
+ - name: Build Kernel
+   run: |
+     export ARCH=arm64
+     export SUBARCH=arm64
+     export CROSS_COMPILE=aarch64-linux-gnu-
+     make <a22x_defconfig>
+     make -j$(nproc)
+
 
     # Upload artifacts
     - name: Upload built kernel
